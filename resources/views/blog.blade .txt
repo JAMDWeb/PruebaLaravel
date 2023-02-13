@@ -1,0 +1,46 @@
+
+<!-- Plantillas por herencia  -->
+{{-- @section('title')
+    Blog
+@endsection
+
+@section('meta-description','BLog meta description') <!-- Se puede pasar como parametro si solo va a ser texto -->
+
+@extends('layouts.app')
+
+@section('content')
+    <h1>Blog en Laravel 9</h1>
+@endsection --}}
+<x-layouts.app
+        title="Home"
+        meta-description="Home meta description"
+>
+        <h1>Blog en Laravel 9</h1>
+        {{-- Ya esta disponible la variable $post pasada como datos a view() --}}
+        {{-- Para inspreccionar datos usamos la directiva @dump()
+            y pasarle la variable que queremos inspeccionar --}}
+            y pasarle la variable que queremos inspeccionar --}}
+        {{-- @dump($posts) --}}
+
+        {{-- vamos a recorrer el arrar de $posts
+            con la directiva de blade @foreach --}}
+        @foreach ( $posts as $post )
+
+            <h2>
+                {{-- datos de array --}}
+                {{-- {{ $post['title'] }} --}}
+
+                {{-- datos de la bd
+                ahora cada post es una clase predefinida de php
+                stdClass, que nos sirve para crear objetos genericos
+                en ves de accederlo como un array se accede como
+                una propiedad de la clase
+                --}}
+                {{-- @dump($post) --}}
+                {{ $post->title }}
+            </h2>
+
+
+        @endforeach
+
+</x-layouts.app>

@@ -1,0 +1,49 @@
+
+<!--plantillas: Layouts por compomenetes de blade
+para usuarios autenticados
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+     content="width=device-width, initial-scale=1.0">
+    {{-- La alternativa del uso de componentes blande para layout
+        es imprimir una variable, al estar dentro del componente se las
+        considerar como propiedades del componete --}}
+    {{-- <title> Aprendible - {{ $title }} </title> --}}
+    {{-- Si queremos que sea opcional utilizamos en el layout title
+            el operador el operador de php ?? --}}
+    <title>Aprendible - {{ $title ?? '' }} </title>
+    <meta name="descripcion"
+        content="{{ $metaDescription ?? 'Default meta description'}}" /> {{-- para definir propiedades usamos camel Case --}}
+    {{-- Con platillas por herencia
+         <title> Aprendible - @yield('title') </title> --}}
+    {{-- <meta name="descripcion" content="@yield('meta-description', 'Default meta description')"> --}}
+</head>
+<body>
+
+
+{{-- @include('partials.navigation') --}}
+{{-- Convertir la navegacion a componente --}}
+<x-layouts.navigation />
+{{-- <pre> {{ $sum }}</pre> --}}
+{{-- como no se va ha imprimir nada se cierra la etiquete  --}}
+{{-- </x-navigation> --}}
+
+
+<!-- Para que se imprima el contenido variable de cada pagina
+hay que indicar donde queremos que se imprima el contenido
+se le pasa como parametro el nomnre de la seccion que
+ queremos imprimir
+-->
+{{-- @yield('content') --}}
+
+{{-- En los componetes blade tenemos la parabla reservada $slot
+    donde se va a imprimir el contenido variable principal
+    es equivalente a @yield--}}
+{{ $slot  }}
+
+</body>
+</html>

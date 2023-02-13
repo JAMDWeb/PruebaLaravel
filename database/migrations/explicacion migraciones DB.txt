@@ -1,0 +1,78 @@
+Las migraciones en Laravel son clase de php que nos permiten
+recrear y modificar esquemas de DB.
+Laravel por defecto nos trae alguna de estas migraciones
+en la carpeta /database/migrations/
+El nombre de los archivos comienza con unos numeros de fecha
+y una descripcion de lo que hace :
+2014_10_12_000000_create_users_table.php
+
+retorno una nueva clase anonima, es desir una clase sin nombre y se
+extiende a la clase Migration del framework.
+Todas las migraciones tiene 2 metodos:
+up(): definimos la crecion o modificacion de una tabla
+down(): definimos lo puesto definido en up(), eliminar o deshacer
+Si en el metodo up() ralizamos una creacion, con el metodo down()
+borramos la tabla.
+En el caso de que realicemos una modificaion con up(), con down()
+deshacemos dicha modificacion.
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration // clase anonima (sin nombre) y se
+// extiende a la clase Migration del framework
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            // extrucura para la tabla users
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();unique() para que se repita
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps(); echas de creacion y atulizacion
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('users');
+    }
+};
+
+Las migraciones por si solas no crean las DB, hay que ejecutarlos
+usamos el comando php artisan migrate:
+Este comando recorre todos los archivos de migraciones de la carpeta
+/database/migrations/ y va a ejecutar el metodo up()
+en vscode ctrl+p , >artisan:migrate
+para ejecutar el metodo down() en vscode ctrl+p ,
+>artisan:migrate:rollback : Da error
+usar los comandos en la terminal :Ctrl+shif+ñ
+php artisan migrate
+php artisan migrate:rollback , si ubiera + de un lote de migraciones tabla migrations, el down()
+se aplica a la ultima migracion.
+php artisan migrate:fresh : va a eliminar todas las tabla y ejecutar las migraciones desde 0
+    se perderan los datos de las tablas.
+
+Vamos a crear un archivo de migracion
+php artisan make:migration create_posts_table
+En el caso de querer modificar la estructura de la tabla y no queremos perder datos
+debemos crear un nuevo archivo de migracion
+php artisan make:migration add_body_to_posts_table: laravel va a detectectar la palabra
+_to_ o _from_ para generar el metodo para actualizar dicha tabla _posts_
+ejecutamos: php artisan migrate
+De esta forma podemos actualizar la tabla sin perder datos
+

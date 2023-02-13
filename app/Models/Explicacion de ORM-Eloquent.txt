@@ -1,0 +1,24 @@
+La clase DB nos perpite una cantidad de funcionalidades para interactuar con las DB,
+Laravel cuenta con ORM(Object Relation Mapping) que se llama Eloquent, donde cada
+tabla de la DB tiene un modelo correspondiente que nos permitira interactuar con ella.
+Podemos leer, crear y actualizar registros de la DB de una forma orientada a objetos.
+Un modelo de Eloquent es un clase de PHP que se extiende Illuminate\Database\Eloquent\Model
+para herredar toda las funcionalidades.
+Los modelos los tenemos en la carpeta /app/Models/ , vamos a crear un modelo para interactuar
+con la tabla posts: php artisan make:model Posts
+La convencion para crear modelos es que esten en singular y la primer letra con mayuscula.
+es lo que se conose como PascalCase (ExampleModelName)
+
+Una forma mas rapida de de crear el modelo y la migracion asociada
+con la tabla que va a interactuar es:
+php artisan make:model Post -m
+Ir a la mirgracion y definir la estructura de la tabla
+
+Funcionalidad basicas de los modelos de Eloquent:
+php artisan tinker: podemos ejecutar php directamente
+Post::get()
+Post::find(5)
+$post->save()
+$post->delete()
+
+para salir de tinker ctrl+c

@@ -1,0 +1,121 @@
+<?php
+/*
+En una aplicacion Laravel lo primero que se carga
+son las rutas carpeta routs
+*/
+
+use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Route;
+
+
+/*
+Todas las vistas se encuentran el la carpeta:
+/resources/wiews/
+blade : es el motor de plastilla que utiliza Laravel
+*/
+
+/*
+Definicion de una ruta tipo get
+Metodo get recive 2 parametros:
+1ro. es url , en este caso corresponde a la raiz
+de la app, es desir en locales laravel-9.test/
+2do. es la funcion que se va a ejecutar segun url
+en este caso la raiz
+*/
+Route::get('/', function () { // closures.?
+    /*
+    En este caso se retorna el nombre de la vista:'welcome'
+    view sabe la ubicacion de la vista y que contienen
+    la extencion .blade.php
+    */
+    /* tambien podemos utiliar para mostrar datos */
+    //return ['aprendible'=>'.com'];
+    //return "Index";
+    return view('welcome');
+});
+
+/*En caso que no necesitamos hacer alguna operacion
+adicional en la peticion y la respuesta
+podemos utilizaar el metod wiew
+que internamente responde a las petriciones de tipo
+get y set
+1ro. es url , en este caso corresponde a la raiz
+de la app, es desir en locales laravel-9.test/
+2do. es la funcion que se va a ejecutar segun url
+en este caso la raiz
+*/
+
+#Rutas#
+/* siempre hay que darle nombre a las rutas
+y referenciarlas con href="<?= route('home')?>"
+utilizando el metodo name: le damos un nombre a la ruta
+*/
+Route::view('/','welcome')->name('home');
+Route::view('/contact','contact')->name('contact');
+    // Route::view('/blog','blog',['posts'=>$posts])->name('blog');
+    // Pasamos datos en el 3er parametro
+    // en este caso un array : $posts
+    // datos solo relevantes a la ruta blog
+// Route::view('/blog','blog',['posts'=>$posts])->name('blog');
+
+    // una mejora es usar get() en lugar de view()
+    // Route::get('/blog', function () {
+    // arrays de post para pasar como datos a view()
+    // a futuro estos datos vendran de una DB
+    // estos datos son relevantes solo para la ruta blog
+    // De esta forma tenemos toda la logica de esta ruta
+    // contenida en este bloque de codigo
+    // Peticion:
+    // $posts = [
+    //     ['title'=> 'First post'],
+    //     ['title'=> 'Second post'],
+    //     ['title'=> 'Third post'],
+    //     ['title'=> 'Fourth post'],
+    // ];
+    //Respuesta:
+    // return view('/blog' , ['posts' => $posts] );
+    // Mantener limpio el archivo de rutas
+    // es recomendable utilizar controladores
+    // siempre que necesitemos realizar una accion entre
+    // la peticion  y la respuesta
+    // vamos a extraer todo este codigo a un controlador
+    // un controlador es una clase de php que se encarga
+    // de recibir la peticion y devolver la respuesta
+    // los controladores se encuentra en la carpeta
+    // /app/http/controllers
+// })->name('blog');
+
+    // utilizando un controlador :
+    // PostController con metodo invocable __invoke() 1 solo metodo o accion
+// Route::get('/blog',PostController::class)->name('blog');
+    // en coso de utilizar el controlador para multiple acciones
+    // le pasamos un array : primer elemento el controlador
+            // y el segundo es el metodo a ejecutarse
+    // por convencion cuando queremos mostrar un listado de algo
+        //de cualquier recurso, utilizamos el metodo : index()
+    Route::get('/blog',[PostController::class,'index'])->name('blog');
+
+Route::view('/about','about')->name('about');
+
+
+/* En la parte de form
+# Podemos responder a peticiones de tipo
+Route::post();
+Route::patch();
+Route::put();
+Route::delete();
+Route::options();
+*/
+/*
+# tambien a varias peticiones a la vez
+Route::match(['put','patch'],'/', function(){
+    //
+});
+*/
+/*
+# O a todas
+Route::any('/', function(){
+    //
+});
+*/
+
